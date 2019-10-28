@@ -15,12 +15,12 @@ from dataGenerator import *
 from model import SnakeNet
 
 model = SnakeNet((256, 256, 3), 20)
-model.load_weights('snakenet.hdf5')
+#model.load_weights('snakenet.hdf5')
 model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['categorical_accuracy'])
 
-train = SnakeDataGenerator(16, source='train')
-validation = SnakeDataGenerator(16,  source='validate')
+train = SnakeDataGenerator(8, source='train')
+validation = SnakeDataGenerator(8,  source='validate')
 
 model_checkpoint = ModelCheckpoint('snakenet.hdf5', monitor='loss', verbose=1, save_best_only=True)
-model.fit_generator(train, steps_per_epoch=500, epochs=200, callbacks=[model_checkpoint], max_queue_size=100, workers=8, validation_data=validation, validation_steps=100)
+model.fit_generator(train, steps_per_epoch=1000, epochs=200, callbacks=[model_checkpoint], max_queue_size=100, workers=8, validation_data=validation, validation_steps=100)
 
