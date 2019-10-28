@@ -13,17 +13,19 @@ import cv2
 import albumentations
 
 class SnakeDataGenerator(Sequence):
-    def __init__(self, batch_size, validationFlag = False):
+    def __init__(self, batch_size, source = 'train'):
         self.batch_size = batch_size
-        self.validationFlag = validationFlag
+        self.source = source
         self.sizeX = 256
         self.sizeY = 256
 
-        if self.validationFlag == False:
-            fileListFile = open("dataset/trainList.txt", "r")
-        else:
+        if self.source == 'validate':
+            fileListFile = open("dataset/testList.txt", "r")
+        elif self.source == 'test':
             fileListFile = open("dataset/valList.txt", "r")
-        
+        else:
+            fileListFile = open("dataset/trainList.txt", "r")
+
         self.fileList = fileListFile.readlines()
         self.total = len(self.fileList)
         
@@ -58,10 +60,14 @@ class SnakeDataGenerator(Sequence):
 
     def getLabel(self, sampleString):
         classString = sampleString.split('/')[0]
+        
 
-        for i in range(self.classCount):
+        label = np.zeros((self.classCount))
+
+        for i in range(0, self.classCount):
             if (classString == self.classList[i].split('|')[0]):
-                return i
+                label[i] = 1
+                return label
 
         print('Class label not found !')
         exit()
@@ -73,7 +79,7 @@ class SnakeDataGenerator(Sequence):
         for b in range(0, self.batch_size):
             sample = random.randint(0, self.total-1)
             image = cv2.imread(self.path + self.fileList[sample].rstrip("\n\r"))
-            
+
             # Some of the images are corrupted on my disk
             while (image is None):
                 sample = random.randint(0, self.total-1)
@@ -83,7 +89,8 @@ class SnakeDataGenerator(Sequence):
             image = (image - image.mean()) / (image.std() + 1e-8)
             imageResult[b] = image
 
-            zeroBasedClass = self.getLabel(self.fileList[sample])
-            labelResult[b, zeroBasedClass] = 1
+            labelResult[b] = self.getLabel(self.fileList[sample])
+            #if self.validationFlag == False:
+                #print(str(self.validationFlag) + ': ' +str(sample) + ' : ' + str(labelResult[b]))
 
         return (imageResult, labelResult)

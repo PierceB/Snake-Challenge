@@ -8,7 +8,7 @@ path = 'E:/ML Dataset/Snake/train/'
 def ClassList():
     classListFile = open("dataset/classList.txt", "w")
     imageListFile = open("dataset/imageList.txt", "w")
-    for i in range(100):
+    for i in range(540):
         if os.path.isdir(path + 'class-' + str(i)):            
             imageList = os.listdir(path + 'class-' + str(i))
             classListFile.write('class-' + str(i) +'|'+ str(len(imageList)) + '\n')
@@ -35,9 +35,9 @@ def DataSplit():
     for i in range(len(classListLines)):        
         className = classListLines[i].split('|')[0]
         
-        classCount = int(classListLines[i].split('|')[1])
-        trainCount = math.floor( classCount * 0.7)
-        trainCount = min(trainCount, 500) # This is shit. We need a better way to sample equally from all classes
+        classCountOriginal = int(classListLines[i].split('|')[1])
+        classCount = min(classCountOriginal, 1000) # This is shit. We need a better way to sample equally from all classes
+        trainCount = math.floor( classCount * 0.7)        
         valCount = math.floor( classCount * 0.2)
         testCount = math.floor( classCount * 0.1)
 
@@ -50,7 +50,7 @@ def DataSplit():
         for imageIterator in range(total+trainCount+valCount, total+classCount, 1):
             testListFile.write(imageListLines[imageIterator])
 
-        total += classCount
+        total += classCountOriginal
     
     classListFile.close()
     imageListFile.close()
