@@ -49,8 +49,7 @@ class DataPreprocessing:
             testListFile = open("../Data/dataset/"+ className + "_testList.txt", "w")
             
             classCount = int(classListLines[i].split('|')[1])
-            #classCount = min(classCountOriginal, 1000) # This is shit. We need a better way to sample equally from all classes
-            trainCount = math.floor( classCount * trainSplit)        
+            trainCount = math.floor( classCount * trainSplit)
             valCount = math.floor( classCount * validateSplit)
             testCount = math.floor( classCount * testSplit)
 

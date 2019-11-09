@@ -24,7 +24,7 @@ dp = DataPreprocessing()
 dp.ClassList(45)
 dp.DataSplit()
 
-model = SnakeNet((256, 256, 3), 45)
+model = SnakeNet((512, 512, 3), 45)
 #model.load_weights('snakenet.hdf5')
 
 model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['categorical_accuracy', recall, precision])

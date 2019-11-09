@@ -17,8 +17,8 @@ class SnakeDataGenerator(Sequence):
         self.batch_size = batch_size
         self.source = source
         self.path = 'E:/ML Dataset/Snake/train/'
-        self.sizeX = 256
-        self.sizeY = 256
+        self.sizeX = 512
+        self.sizeY = 512
 
         classListFile = open("../Data/dataset/classList.txt", "r")
         classList = classListFile.readlines()
