@@ -36,19 +36,19 @@ def SnakeNet(img_shape, class_count):
     pool4 = MaxPooling2D(pool_size=(2, 2))(drop4)
     # 16 * 16 * 512
 
-    conv5 = Conv2D(1024, 3, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(pool4)
-    conv5 = Conv2D(16, 1, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(conv5)
-    drop5 = Dropout(0.2)(conv5)
-    # 16 * 16 * 16
+    conv5 = Conv2D(128, 1, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(pool4)
+    pool5 = MaxPooling2D(pool_size=(2, 2))(conv5)
+    drop5 = Dropout(0.2)(pool5)
+    # 16 * 16 * 128
 
     flatten = Flatten()(drop5)
     # 4096
 
     dense1 = Dense(1024, activation = 'relu')(flatten)
-    drop6 = Dropout(0.5)(dense1)
+    drop6 = Dropout(0.3)(dense1)
 
     dense2 = Dense(512, activation = 'relu')(drop6)
-    drop7 = Dropout(0.5)(dense2)
+    drop7 = Dropout(0.3)(dense2)
 
     denseOut = Dense(class_count, activation = 'sigmoid')(drop7)
 
