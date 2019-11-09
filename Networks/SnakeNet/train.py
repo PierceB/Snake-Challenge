@@ -19,7 +19,7 @@ from dataPreprocess import *
 from metrics import *
 from model import SnakeNet
 
-datasetPath = '../../train/'
+datasetPath = '../../../train/'
 #datasetPath = 'E:/ML Dataset/Snake/train/'
 dp = DataPreprocessing(datasetRoot=datasetPath)
 
