@@ -20,8 +20,9 @@ class SnakeDataGenerator(Sequence):
         self.sizeX = 512
         self.sizeY = 512
 
-        if (os.path.isdir(self.path) == False):
+        if (os.path.isdir(self.path) == False):            
             print('DIRECTORY ERROR !! ___________________________')
+            print(self.path)
 
         classListFile = open("../Data/dataset/classList.txt", "r")
         classList = classListFile.readlines()
