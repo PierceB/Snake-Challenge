@@ -84,10 +84,6 @@ class SnakeDataGenerator(Sequence):
         res = self.augment(image=image)
         image = res['image']
 
-        seed = random.randint(0, 1000000)
-
-        cv2.imwrite(str(seed) + '.jpg', image)
-
         image = (image - image.mean()) / (image.std() + 1e-8)
 
         return image
