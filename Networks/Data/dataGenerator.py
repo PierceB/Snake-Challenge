@@ -13,10 +13,10 @@ import cv2
 import albumentations
 
 class SnakeDataGenerator(Sequence):
-    def __init__(self, batch_size, source = 'train'):
+    def __init__(self, batch_size, source = 'train', datasetRoot='E:/ML Dataset/Snake/train/'):
         self.batch_size = batch_size
         self.source = source
-        self.path = 'E:/ML Dataset/Snake/train/'
+        self.path = datasetRoot
         self.sizeX = 512
         self.sizeY = 512
 

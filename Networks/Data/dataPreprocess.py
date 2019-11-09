@@ -2,10 +2,10 @@ import os
 import math
 
 # Poin this to the folder containing all the classes of snakes
-path = 'E:/ML Dataset/Snake/train/'
 
 class DataPreprocessing:
-    def __init__(self):
+    def __init__(self, datasetRoot='E:/ML Dataset/Snake/train/'):
+        self.path = datasetRoot
         print('init_temp')
         if (os.path.isdir('../Data/dataset/') == False):
             os.mkdir('../Data/dataset/')
@@ -19,9 +19,9 @@ class DataPreprocessing:
         for i in range(1626):
             if confirmedCount >= classCount:
                 break
-            if os.path.isdir(path + 'class-' + str(i)):
+            if os.path.isdir(self.path + 'class-' + str(i)):
                 confirmedCount += 1
-                imageList = os.listdir(path + 'class-' + str(i))
+                imageList = os.listdir(self.path + 'class-' + str(i))
                 classListFile.write('class-' + str(i) +'|'+ str(len(imageList)) + '\n')
                 for imageIterator in range(len(imageList)):
                     imageListFile.write('class-' + str(i) + '/' + imageList[imageIterator] + '\n')
