@@ -12,20 +12,15 @@ def SnakeNet(img_shape, class_count):
     inputs = Input(img_shape)
     # 256 * 256 * 3
 
-    
-
-
     conv1 = Conv2D(64, 3, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(inputs)
     conv1 = Conv2D(64, 3, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(conv1)
-    drop1 = Dropout(0.1)(conv1)
+    drop1 = Dropout(0.2)(conv1)
     convc = Conv2D(1, 1, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(drop1)
     # 128 * 128 * 64
 
     conv2 = Conv2D(128, 3, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(convc)
     conv2 = Conv2D(128, 3, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(conv2)
-    #merge2 = concatenate([pool1,conv2], axis = 3)
-    drop2 = Dropout(0.1)(conv2)
-    convc2 = Conv2D(1, 1, activation = lrelu, padding = 'same', kernel_initializer = 'he_normal')(drop2)
+    drop2 = Dropout(0.2)(conv2)
     flatten = Flatten()(convc2)
     # 32768
 
