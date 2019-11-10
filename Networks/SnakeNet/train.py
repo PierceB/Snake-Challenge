@@ -1,6 +1,8 @@
 import sys
 sys.path.append('../Data/')
 
+from cfg import *
+
 import numpy as np 
 import os
 import cv2
@@ -20,21 +22,24 @@ from metrics import *
 from model import SnakeNet
 
 savePath = 'snakenet.hdf5'
-datasetPath = 'E:/ML Dataset/Snake/train/'
+datasetPath = getPath()
 dp = DataPreprocessing(datasetRoot=datasetPath)
 
-dp.ClassList(45)
+
+num_classes = getNumClasses()
+
+dp.ClassList(num_classes)
 dp.DataSplit()
 
-model = SnakeNet((512, 512, 3), 45)
+model = SnakeNet(getImageSize(),num_classes)
 model.summary()
 #model.load_weights(savePath)
 
 model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['categorical_accuracy', recall, precision])
 
-train = SnakeDataGenerator(4, source='train', datasetRoot=datasetPath)
-validation = SnakeDataGenerator(2,  source='val', datasetRoot=datasetPath)
+train = SnakeDataGenerator(getTrainBatch(), source='train', datasetRoot=datasetPath)
+validation = SnakeDataGenerator(getValBatch(),  source='val', datasetRoot=datasetPath)
 
 model_checkpoint = ModelCheckpoint(savePath, monitor='loss', verbose=1, save_best_only=True)
-model.fit_generator(train, steps_per_epoch=2000, epochs=200, callbacks=[model_checkpoint], max_queue_size=100, workers=8, validation_data=validation, validation_steps=200)
+model.fit_generator(train, steps_per_epoch=2000, epochs=getEpochs(), callbacks=[model_checkpoint], max_queue_size=100, workers=getWorkers(), validation_data=validation, validation_steps=200)
 

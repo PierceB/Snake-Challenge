@@ -12,13 +12,17 @@ import random
 import cv2
 import albumentations
 
+from cfg import *
+
+
 class SnakeDataGenerator(Sequence):
     def __init__(self, batch_size, source = 'train', datasetRoot='E:/ML Dataset/Snake/train/'):
         self.batch_size = batch_size
         self.source = source
         self.path = datasetRoot
-        self.sizeX = 512
-        self.sizeY = 512
+        image_size = getImageSize()
+        self.sizeX = image_size[0]
+        self.sizeY = image_size[1]
 
         if (os.path.isdir(self.path) == False):            
             print('DIRECTORY ERROR !! ___________________________')

@@ -6,7 +6,7 @@ from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras.applications import VGG16
 
 
-def SnakeNet(img_shape, class_count):
+def VGG16Base(img_shape, class_count):
     # leaky relu. I'm paranoid about dying neurons
     lrelu = lambda x: tf.keras.activations.relu(x, alpha=0.1)
 
@@ -19,10 +19,14 @@ def SnakeNet(img_shape, class_count):
     flatten = Flatten()(conv_base)
     # 32768
 
-    dense1 = Dense(256, activation = 'relu')(flatten)
+    dense1 = Dense(1024, activation = 'relu')(flatten)
     drop6 = Dropout(0.4)(dense1)
 
-    denseOut = Dense(class_count, activation = 'softmax')(drop6)
+    dense2 = Dense(512, activation = 'relu')(drop6)
+    drop7 = Dropout(0.4)(dense2)
+
+
+    denseOut = Dense(class_count, activation = 'sigmoid')(drop7)
 
     model = Model(input = inputs, output = denseOut)
     return model

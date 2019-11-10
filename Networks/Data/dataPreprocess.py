@@ -1,6 +1,9 @@
 import os
 import math
 
+from cfg import getPath
+
+
 # Poin this to the folder containing all the classes of snakes
 
 class DataPreprocessing:
