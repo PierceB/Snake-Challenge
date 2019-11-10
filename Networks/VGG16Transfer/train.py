@@ -21,19 +21,36 @@ from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from dataGenerator import *
 from dataPreprocess import *
 from metrics import *
-from model import SnakeNet
+from model import VGG16Base
 
 savePath = 'VGG16.hdf5'
 datasetPath = getPath()
 dp = DataPreprocessing(datasetRoot=datasetPath)
 
-
+train_layers = 2
 num_classes = getNumClasses()
 
 dp.ClassList(num_classes)
 dp.DataSplit()
 
-model = VGG16Base(getImageSize(),num_classes)
+
+vgg_conv = VGG16(weights='imagenet', include_top=False, input_shape=getImageSize())
+
+for layer in vgg_conv.layers[:-train_layers]:
+    layer.trainable = False
+
+for layer in vgg_conv.layers:
+    print(layer, layer.trainable)
+
+model = models.Sequential()
+
+model.add(vgg_conv)
+model.add(layers.Flatten())
+model.add(layers.Dense(1024,activation='relu'))
+model.add(layers.Dropout(0.4))
+model.add(layers.Dense(num_classes,activation='sigmoid'))
+
+# model = VGG16Base(getImageSize(),num_classes,train_layers=train_layers)
 model.summary()
 #model.load_weights(savePath)
 

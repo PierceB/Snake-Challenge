@@ -6,7 +6,7 @@ from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras.applications import VGG16
 
 
-def VGG16Base(img_shape, class_count):
+def VGG16Base(img_shape, class_count,train_layers=1):
     # leaky relu. I'm paranoid about dying neurons
     lrelu = lambda x: tf.keras.activations.relu(x, alpha=0.1)
 
@@ -15,7 +15,12 @@ def VGG16Base(img_shape, class_count):
     # 256 * 256 * 3
 
     conv_base = VGG16(weights='imagenet', include_top=False,input_shape=img_shape)(inputs)
-    conv_base.trainable = False
+    
+    for layer in conv_base.layers[:-train_layers]:
+        layer.trainable = False
+    
+    
+    # conv_base.trainable = False
     flatten = Flatten()(conv_base)
     # 32768
 
