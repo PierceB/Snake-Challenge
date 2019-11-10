@@ -19,9 +19,8 @@ from dataPreprocess import *
 from metrics import *
 from model import SnakeNet
 
-datasetPath = '../../../train/'
-savePath = '../../../drive/My Drive/Public/SnakeChallenge/snakenet.hdf5'
-#datasetPath = 'E:/ML Dataset/Snake/train/'
+savePath = 'snakenet.hdf5'
+datasetPath = 'E:/ML Dataset/Snake/train/'
 dp = DataPreprocessing(datasetRoot=datasetPath)
 
 dp.ClassList(45)
@@ -29,7 +28,7 @@ dp.DataSplit()
 
 model = SnakeNet((512, 512, 3), 45)
 model.summary()
-model.load_weights(savePath)
+#model.load_weights(savePath)
 
 model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['categorical_accuracy', recall, precision])
 
