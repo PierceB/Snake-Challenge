@@ -20,7 +20,7 @@ from metrics import *
 from model import SnakeNet
 
 datasetPath = '../../../train/'
-savePath = 'drive/My Drive/Public/SnakeChallenge/snakenet.hdf5'
+savePath = '../../../drive/My Drive/Public/SnakeChallenge/snakenet.hdf5'
 #datasetPath = 'E:/ML Dataset/Snake/train/'
 dp = DataPreprocessing(datasetRoot=datasetPath)
 
