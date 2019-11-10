@@ -20,7 +20,7 @@ from metrics import *
 from model import SnakeNet
 
 datasetPath = '../../../train/'
-datasetPath = 'E:/ML Dataset/Snake/train/'
+#datasetPath = 'E:/ML Dataset/Snake/train/'
 dp = DataPreprocessing(datasetRoot=datasetPath)
 
 dp.ClassList(45)
