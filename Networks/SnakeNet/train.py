@@ -20,6 +20,7 @@ from metrics import *
 from model import SnakeNet
 
 datasetPath = '../../../train/'
+savePath = '../../../drive/My Drive/Public/SnakeChallenge/snakenet.hdf5'
 #datasetPath = 'E:/ML Dataset/Snake/train/'
 dp = DataPreprocessing(datasetRoot=datasetPath)
 
@@ -35,6 +36,6 @@ model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics
 train = SnakeDataGenerator(4, source='train', datasetRoot=datasetPath)
 validation = SnakeDataGenerator(2,  source='val', datasetRoot=datasetPath)
 
-model_checkpoint = ModelCheckpoint('snakenet.hdf5', monitor='loss', verbose=1, save_best_only=True)
+model_checkpoint = ModelCheckpoint(savePath, monitor='loss', verbose=1, save_best_only=True)
 model.fit_generator(train, steps_per_epoch=2000, epochs=200, callbacks=[model_checkpoint], max_queue_size=100, workers=8, validation_data=validation, validation_steps=200)
 

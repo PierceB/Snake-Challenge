@@ -33,13 +33,13 @@ def SnakeNet(img_shape, class_count):
     conv4 = Conv2D(512, 3, activation = lrelu)(conv4)
     drop4 = Dropout(0.2)(conv4)
     pool4 = MaxPooling2D(pool_size=(2, 2))(drop4)
-    # 16 * 16 * 512
+    # 32 * 32 * 512
     
     conv5 = Conv2D(256, 3, activation = lrelu)(pool4)
     conv5 = Conv2D(256, 3, activation = lrelu)(conv5)
     pool5 = MaxPooling2D(pool_size=(4, 4))(conv5)
     drop5 = Dropout(0.2)(pool5)
-    # 4 * 4 * 512
+    # 16 * 16 * 512
 
     flatten = Flatten()(drop5)
     # 4096
