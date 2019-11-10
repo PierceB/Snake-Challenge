@@ -37,5 +37,5 @@ train = SnakeDataGenerator(4, source='train', datasetRoot=datasetPath)
 validation = SnakeDataGenerator(2,  source='val', datasetRoot=datasetPath)
 
 model_checkpoint = ModelCheckpoint(savePath, monitor='loss', verbose=1, save_best_only=True)
-model.fit_generator(train, steps_per_epoch=20, epochs=200, callbacks=[model_checkpoint], max_queue_size=100, workers=8, validation_data=validation, validation_steps=200)
+model.fit_generator(train, steps_per_epoch=2000, epochs=200, callbacks=[model_checkpoint], max_queue_size=100, workers=8, validation_data=validation, validation_steps=200)
 
