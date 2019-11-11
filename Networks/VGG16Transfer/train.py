@@ -23,6 +23,14 @@ from dataPreprocess import *
 from metrics import *
 from model import VGG16Base
 
+class LogCallback(Callback):
+    def __init__(self, model, generator):
+        self.model = model
+        self.generator = generator
+    def on_epoch_begin(self, batch, logs={}):
+        with open('snakenetHistory', 'wb') as file_pi:
+            pickle.dump(model.history.history, file_pi)
+
 savePath = 'VGG16.hdf5'
 datasetPath = getPath()
 dp = DataPreprocessing(datasetRoot=datasetPath)
