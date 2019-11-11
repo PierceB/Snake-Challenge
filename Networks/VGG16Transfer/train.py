@@ -16,7 +16,7 @@ from keras import *
 from keras.models import *
 from keras.layers import *
 from keras.optimizers import *
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler
+from keras.callbacks import ModelCheckpoint, LearningRateScheduler, Callback
 
 from dataGenerator import *
 from dataPreprocess import *
@@ -28,7 +28,7 @@ class LogCallback(Callback):
         self.model = model
         self.generator = generator
     def on_epoch_begin(self, batch, logs={}):
-        with open('snakenetHistory', 'wb') as file_pi:
+        with open('vggHistory', 'wb') as file_pi:
             pickle.dump(model.history.history, file_pi)
 
 savePath = 'VGG16.hdf5'
@@ -66,7 +66,8 @@ model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics
 
 train = SnakeDataGenerator(getTrainBatch(), source='train', datasetRoot=datasetPath)
 validation = SnakeDataGenerator(getValBatch(),  source='val', datasetRoot=datasetPath)
+logCallback = LogCallback(model, validation)
 
 model_checkpoint = ModelCheckpoint(savePath, monitor='loss', verbose=1, save_best_only=True)
-model.fit_generator(train, steps_per_epoch=2000, epochs=getEpochs(), callbacks=[model_checkpoint], max_queue_size=100, workers=getWorkers(), validation_data=validation, validation_steps=200)
+model.fit_generator(train, steps_per_epoch=2000, epochs=getEpochs(), callbacks=[model_checkpoint, logCallback], max_queue_size=100, workers=getWorkers(), validation_data=validation, validation_steps=200)
 
