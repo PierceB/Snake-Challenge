@@ -1,2 +1,2 @@
 *.hdf5
-Networks/Data/cfg.py
+*cfg.py
