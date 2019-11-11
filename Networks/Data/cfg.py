@@ -1,10 +1,10 @@
 path = 'E:/ML Dataset/Snake/train/'
 
-train_batch_size = 2
+train_batch_size = 8
 val_batch_size = 2
 
-image_size = (256,256,3)
-num_classes = 10
+image_size = (256, 256, 3)
+num_classes = 45
 
 epochs = 200
 workers = 1

@@ -44,7 +44,7 @@ model = SnakeNet(getImageSize(), getNumClasses())
 model.summary()
 #model.load_weights(savePath)
 
-model.compile(optimizer = Adam(lr = 1e-3), loss = 'categorical_crossentropy', metrics = ['categorical_accuracy', recall, precision])
+model.compile(optimizer = Adam(lr = 1e-4), loss = 'categorical_crossentropy', metrics = ['categorical_accuracy', recall, precision])
 
 train = SnakeDataGenerator(getTrainBatch(), source='train', datasetRoot=datasetPath)
 validation = SnakeDataGenerator(getValBatch(),  source='val', datasetRoot=datasetPath)

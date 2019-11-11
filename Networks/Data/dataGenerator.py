@@ -61,7 +61,6 @@ class SnakeDataGenerator(Sequence):
                 #albumentations.OpticalDistortion(),
                 #albumentations.ElasticTransform(alpha=64, sigma=32, always_apply=True, alpha_affine=0),
                 #albumentations.RandomBrightnessContrast(0.2, 0.2, always_apply=True),
-                albumentations.Blur(blur_limit=3, always_apply=False)
             ]
         )
 
