@@ -6,6 +6,7 @@ import glob
 import skimage.io as io
 import skimage.transform as trans
 import threading
+import keras
 from keras.utils import Sequence
 import math
 import random
@@ -50,15 +51,17 @@ class SnakeDataGenerator(Sequence):
     def composeAugmentation(self):
         self.augment = albumentations.Compose(
             [
-                albumentations.HorizontalFlip()
-                #albumentations.Rotate(10, always_apply=True),
+                albumentations.HorizontalFlip(),
+                albumentations.Rotate(10, always_apply=True),
+                albumentations.SmallestMaxSize(self.sizeX+8, always_apply=True),
+                albumentations.CenterCrop(self.sizeX, self.sizeY, always_apply=True),
                 #albumentations.RandomSizedCrop((128, 640), self.sizeY, self.sizeX, 1, always_apply=True),
                 #albumentations.GridDistortion(always_apply=False),
-                #albumentations.IAAAffine(rotate=2, shear=5, always_apply=False),                
+                albumentations.IAAAffine(rotate=2, shear=5, always_apply=False),                
                 #albumentations.OpticalDistortion(),
                 #albumentations.ElasticTransform(alpha=64, sigma=32, always_apply=True, alpha_affine=0),
                 #albumentations.RandomBrightnessContrast(0.2, 0.2, always_apply=True),
-                #albumentations.Blur(always_apply=False)
+                albumentations.Blur(blur_limit=3, always_apply=False)
             ]
         )
 
@@ -88,16 +91,16 @@ class SnakeDataGenerator(Sequence):
             imagePath = imageList[random.randint(0, len(imageList)-1)]
             image = cv2.imread(self.path + imagePath.rstrip("\n\r"))
 
-        image = cv2.resize(image, (self.sizeY, self.sizeX))
         res = self.augment(image=image)
         image = res['image']
+
+        #seed = random.randint(0, 100000)
+        #cv2.imwrite('images/' + str(classNumber) + '_' + str(seed) +'.jpg', image)
 
         image = (image - image.mean()) / (image.std() + 1e-8)
 
         return image
 
     def getLabel(self, classNumber):
-        label = np.zeros(self.classCount)
-        label[classNumber] = 1
-
+        label = keras.utils.to_categorical(classNumber, num_classes=self.classCount)
         return label

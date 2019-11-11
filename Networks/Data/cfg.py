@@ -1,10 +1,10 @@
-path = '/home/pierce/Desktop/CV Work/Snake Project/Snake-Challenge/Data/train/'
+path = 'E:/ML Dataset/Snake/train/'
 
-train_batch_size = 1 
-val_batch_size = 1
+train_batch_size = 2
+val_batch_size = 2
 
 image_size = (256,256,3)
-num_classes = 2
+num_classes = 10
 
 epochs = 200
 workers = 1
