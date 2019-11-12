@@ -38,7 +38,11 @@ def SnakeNet(img_shape, class_count):
     drop4 = Dropout(0.2)(norm4)
     # 32 * 32 * 512
     
-    conv5 = Conv2D(128, 3, activation = lrelu)(drop4)
+    conv5_1 = Conv2D(128, 3, padding="same", activation = lrelu)(drop4)
+    conv5_2 = Conv2D(128, 3, padding="same", activation = lrelu, dilation_rate=2)(drop4)
+
+    conv5 = concatenate([conv5_1, conv5_2])
+
     pool5 = MaxPooling2D(pool_size=(2, 2))(conv5)
     norm5 = BatchNormalization()(pool5)
     drop5 = Dropout(0.5)(norm5)
