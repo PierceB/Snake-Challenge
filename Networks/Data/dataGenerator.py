@@ -55,12 +55,11 @@ class SnakeDataGenerator(Sequence):
                 albumentations.Rotate(10, always_apply=True),
                 albumentations.SmallestMaxSize(self.sizeX+8, always_apply=True),
                 albumentations.CenterCrop(self.sizeX, self.sizeY, always_apply=True),
-                #albumentations.RandomSizedCrop((128, 640), self.sizeY, self.sizeX, 1, always_apply=True),
-                #albumentations.GridDistortion(always_apply=False),
+                albumentations.GridDistortion(always_apply=False),
                 albumentations.IAAAffine(rotate=2, shear=5, always_apply=False),                
                 #albumentations.OpticalDistortion(),
-                #albumentations.ElasticTransform(alpha=64, sigma=32, always_apply=True, alpha_affine=0),
-                #albumentations.RandomBrightnessContrast(0.2, 0.2, always_apply=True),
+                albumentations.ElasticTransform(alpha=128, sigma=64, always_apply=True, alpha_affine=0),
+                albumentations.RandomBrightnessContrast(0.1, 0.1, always_apply=True),
             ]
         )
 
@@ -87,14 +86,15 @@ class SnakeDataGenerator(Sequence):
         image = None
 
         while (image is None):
-            imagePath = imageList[random.randint(0, len(imageList)-1)]
+            imageNumber = random.randint(0, len(imageList)-1)
+            imagePath = imageList[imageNumber]
             image = cv2.imread(self.path + imagePath.rstrip("\n\r"))
 
         res = self.augment(image=image)
         image = res['image']
 
-        #seed = random.randint(0, 100000)
-        #cv2.imwrite('images/' + str(classNumber) + '_' + str(seed) +'.jpg', image)
+        seed = random.randint(0, 100000)
+        cv2.imwrite('images/' + str(classNumber) + '_' + str(seed) +'.jpg', image)
 
         image = (image - image.mean()) / (image.std() + 1e-8)
 

@@ -1,3 +1,8 @@
+
+import sys
+sys.path.append('../Data/')
+
+
 import numpy as np 
 import os
 import cv2
@@ -15,7 +20,7 @@ from dataGenerator import *
 from model import SnakeNet
 
 model = SnakeNet((256, 256, 3), 20)
-model.load_weights('snakenet.hdf5')
+#model.load_weights('snakenet.hdf5')
 model.summary()
 model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['categorical_accuracy'])
 
