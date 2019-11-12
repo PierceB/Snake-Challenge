@@ -51,7 +51,7 @@ def SnakeNet(img_shape, class_count):
     flatten = Flatten()(drop5)
     # 4096
 
-    dense1 = Dense(2048, activation = lrelu)(flatten)
+    dense1 = Dense(1024, activation = lrelu)(flatten)
     drop6 = Dropout(0.5)(dense1)
 
     denseOut = Dense(class_count, activation = 'softmax')(drop6)
