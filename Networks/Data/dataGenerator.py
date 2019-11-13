@@ -49,19 +49,28 @@ class SnakeDataGenerator(Sequence):
             self.total += len(lines)            
 
     def composeAugmentation(self):
-        self.augment = albumentations.Compose(
-            [
-                albumentations.HorizontalFlip(),
-                albumentations.Rotate(10, always_apply=True),
-                albumentations.SmallestMaxSize(self.sizeX+8, always_apply=True),
-                albumentations.CenterCrop(self.sizeX, self.sizeY, always_apply=True),
-                albumentations.GridDistortion(always_apply=False),
-                albumentations.IAAAffine(rotate=2, shear=5, always_apply=False),                
-                #albumentations.OpticalDistortion(),
-                albumentations.ElasticTransform(alpha=128, sigma=64, always_apply=True, alpha_affine=0),
-                albumentations.RandomBrightnessContrast(0.1, 0.1, always_apply=True),
-            ]
-        )
+        if (source == "train" :)
+            self.augment = albumentations.Compose(
+                [
+                    albumentations.HorizontalFlip(),
+                    albumentations.Rotate(10, always_apply=True),
+                    albumentations.SmallestMaxSize(self.sizeX+8, always_apply=True),
+                    albumentations.CenterCrop(self.sizeX, self.sizeY, always_apply=True),
+                    albumentations.GridDistortion(always_apply=False),
+                    albumentations.IAAAffine(rotate=2, shear=5, always_apply=False),        
+                    #albumentations.OpticalDistortion(),
+                    albumentations.ElasticTransform(alpha=128, sigma=64, always_apply=True, alpha_affine=0),
+                    albumentations.RandomBrightnessContrast(0.1, 0.1, always_apply=True),
+                ]
+            )
+
+        if (source == "val"):
+            self.augment = albumentations.Compose(
+                [
+                    albumentations.SmallestMaxSize(self.sizeX+8, always_apply=True),
+                    albumentations.CenterCrop(self.sizeX, self.sizeY, always_apply=True),
+                ]
+            )
 
     def __len__(self):
         return math.ceil(self.total / self.batch_size)
